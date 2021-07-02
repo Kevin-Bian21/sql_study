@@ -174,6 +174,7 @@ WHERE order_date < '2019-01-01';
 
 
 -- =======第四章：列属性=========
+use sql_store;
 INSERT INTO customers
 VALUES (DEFAULT,'Kevin','Bian','1999-09-09',DEFAULT,'Address','XI\'AN','SX',DEFAULT);
 -- 插入一行数据，第一种写法，未指明对应的列名，所以在填值的时候要和表列的数量和列的顺序保持一致。
