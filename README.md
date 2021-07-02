@@ -3,8 +3,7 @@
 1. DataGrip 软件
 2. MySQL 8.0.12
 ## 学习流程
-![输入图片说明](https://www.notion.so/SQL-10d783305eb94e78abdc508163939589#89dce4fe0f4542c39073e3795f890bee "在这里输入图片标题")
-
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0702/133200_d483958d_8341577.png "屏幕截图.png")
 ## 代码相应内容
     第二章:查询语句
     第二章:连接
