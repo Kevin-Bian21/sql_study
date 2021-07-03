@@ -230,6 +230,7 @@ CREATE TABLE IF NOT EXISTS customers
     email VARCHAR(255) NOT NULL UNIQUE -- UNIQUE:唯一
 );
 -- 声明为主键后可以省略NOT NULL，因为主键一定不为空
+
 -- 修改表
 ALTER TABLE customers
     ADD last_name varchar(50) NOT NULL AFTER first_name,
@@ -249,17 +250,39 @@ CREATE TABLE orders
 -- 设置外键约束 首先给外键取名：fk_orders_customers（取名规则：fk_+外键表名+主键列的名称），接着，在括号中，列出我们想要添加这个外键的列，
 -- 然后告诉Mysql，这一列引用了顾客表中的customer_id列，下来我们要指定更新和删除行为，是级联它们还是拒绝它们等等。
 
-CREATE DATABASE IF NOT EXISTS ssmbuild;
-USE `ssmbuild`;
-CREATE TABLE `books`(
-    `book_id` INT(10) NOT NULL primary key AUTO_INCREMENT COMMENT '书id',
-    `book_name`VARCHAR(50) NOT NULL  COMMENT '书名',
-    `book_counts` INT(10) NOT NULL COMMENT '数量',
-    `detail` VARCHAR(200) NOT NULL COMMENT '描述'
-)ENGINE=INNODB DEFAULT CHARSET = UTF8;
+-- 改变外键关联
+ALTER TABLE orders
+    ADD PRIMARY KEY (order_id),
+    DROP PRIMARY KEY ,
+    DROP FOREIGN KEY fk_orders_customers,
+    ADD FOREIGN KEY fk_orders_customers (customer_id)
+        REFERENCES customers (customer_id)
+        ON UPDATE CASCADE
+        ON DELETE NO ACTION;
 
-INSERT INTO books
-VALUES (1,'Java',1,'从入门到放弃'),
-       (2,'MySql',10,'从删库到跑路'),
-       (3,'Kali',5,'从入门到入狱');
+-- 字符集和排序顺序
+SHOW CHARACTER SET ;
+-- utf8,UTF-8 Unicode,utf8_general_ci,3
+-- ci:case-insensitive(排序时不区分大小写),3：最大三个字节
+
+-- 在数据库级别进行设置字符编码
+CREATE DATABASE db_test
+    CHARACTER SET UTF8;
+-- 在表级别设置字符编码
+CREATE TABLE db_test
+(
+    name varchar(50) CHARACTER SET latin1 -- 在列上设置字符集编码
+) CHARACTER SET latin1;
+
+-- ===存储引擎===
+SHOW ENGINES;
+-- InnoDB,DEFAULT,"Supports transactions, row-level locking, and foreign keys",YES,YES,YES
+ALTER TABLE customers
+ENGINE = InnoDB
+
+
+
+
+
+
 
