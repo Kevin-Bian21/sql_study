@@ -318,15 +318,15 @@ BEGIN
 end;
 
 -- =====事件======
-SHOW VARIABLES LIKE 'EVENT%';  #查询MySql系统变量
-SET GLOBAL EVENT_SCHEDULER = ON;  #开启事件调度器
+SHOW VARIABLES LIKE 'EVENT%';  -- 查询MySql系统变量
+SET GLOBAL EVENT_SCHEDULER = ON;  -- 开启事件调度器
 
 DROP EVENT IF EXISTS yearly_delete_stale_audit_rows;
 CREATE EVENT yearly_delete_stale_audit_rows
 ON SCHEDULE
 -- 接下来提供事件执行的计划，你想多久执行这个任务，执行一次还是定期执行
---    AT '2020-06-01' # 只执行一次用AT，只在2020-06-01这天执行一次
-    EVERY 1 YEAR STARTS '2019-01-01' ENDS '2025-01-01' #执行多次，在该日期内每年都执行一次
+--    AT '2020-06-01' -- 只执行一次用AT，只在2020-06-01这天执行一次
+    EVERY 1 YEAR STARTS '2019-01-01' ENDS '2025-01-01'   -- 执行多次,在该日期内每年都执行一次
 DO BEGIN
     DELETE FROM payments_audit
     WHERE action_date < NOW() - INTERVAL 1 YEAR ;
@@ -336,7 +336,6 @@ end;
 SHOW EVENTS;
 -- 修改事件
 ALTER EVENT yearly_delete_stale_audit_rows
--- DISABLE #关闭该事件
-ENABLE ;#开启该事件
-
+-- DISABLE   -- 关闭该事件
+ENABLE ; -- 开启该事件
 

@@ -15,7 +15,7 @@ VALUES (LAST_INSERT_ID(),2,3.11);
 
 COMMIT;
 -- ROLLBACK ;
--- order_items列插入出错后，orders列插入也将失败
+-- order_items表某列插入出错后，orders表插入也将失败
 
 -- ===并发和锁定===
 START TRANSACTION;

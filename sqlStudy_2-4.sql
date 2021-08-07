@@ -71,6 +71,7 @@ INNER JOIN customers c ON o.customer_id = c.customer_id;
 -- 否则会报该错误 Column 'customer_id' in field list is ambiguous
 -- orders o ，customers c 给表起别名简化代码
 
+
 SELECT *
 FROM db_bills.billtype b
 JOIN customers c
@@ -143,9 +144,9 @@ ORDER BY  c.customer_id ;
 SELECT c.customer_id,o.order_id,c.first_name,s.name AS shipper
 FROM customers c
 LEFT JOIN orders o
-    USING (customer_id)  # ON c.customer_id = o.customer_id
+    USING (customer_id)  -- ON c.customer_id = o.customer_id
 LEFT JOIN shippers s
-    USING (shipper_id)   # ON o.shipper_id = s.shipper_id
+    USING (shipper_id)   -- ON o.shipper_id = s.shipper_id
 ORDER BY  c.customer_id ;
 -- USING 关键字只能用在不同表中列名完全一样的场景中，简化代码
 
