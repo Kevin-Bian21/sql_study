@@ -10,7 +10,7 @@ SELECT
 FROM clients c
 JOIN invoices i USING (client_id)
 GROUP BY client_id;
--- 未来很多查询可能多次用到该段查询来写，我们就不需要每次都重写这段查询语句并在每段查询语句上都做一点修改，而是这段查询保存为视图，以供很多地方使用。
+-- 未来很多查询可能基于该查询来写，我们就不需要每次都重写这段查询语句并在每段查询语句上都做一点修改，而是这段查询保存为视图，以供很多地方使用。
 -- 视图不存储数据，它是一张虚拟出来的表，如果基础表的内容做出了改表，由其创建的视图的内容也会改变
 
 -- ===删除视图===
@@ -207,8 +207,8 @@ CREATE FUNCTION get_risk_factor_for_client
     (
         client_id INT
     )
-RETURNS INTEGER  #明确函数返回值的类型。
-# 设置函数的属性，每个MySQL至少要具有一个属性
+RETURNS INTEGER  --明确函数返回值的类型。
+-- 设置函数的属性，每个MySQL至少要具有一个属性
 READS SQL DATA
 BEGIN
     DECLARE risk_factor DECIMAL(9,2) DEFAULT 0;
@@ -222,7 +222,7 @@ BEGIN
 
     SET risk_factor = invoices_total / invoices_count * 5;
 
-    RETURN  IFNULL(risk_factor,0); # 返回我们要的值
+    RETURN  IFNULL(risk_factor,0); -- 返回我们要的值
 end;
 -- 函数属性：
 -- DETERMINISTIC （确定性）：如果我们给予这个函数同样的一组值，则它永远返回一样的值
