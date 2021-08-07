@@ -77,7 +77,7 @@ FROM db_bills.billtype b
 JOIN customers c
     ON b.id = c.customer_id ;
 -- JOIN默认为INNER JOIN
--- 不同数据库之间表连接，只需要给不再当前数据库的表加数据库前缀：db_bills.billtype
+-- 不同数据库之间表连接，只需要给不再当前数据库的表加数据库前缀：db_bills.billtype（db_bills是我的另外一个数据库，billtype是该数据库中的一张表）
 
 SELECT
     oi.order_id,
