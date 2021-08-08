@@ -189,3 +189,59 @@ ORDER BY state ;
 -- 所以创建索引时先查看我们已经具有的索引
 
 -- =========保护数据库========
+
+-- ===创建一个用户===
+CREATE USER kevin@127.0.0.1;
+CREATE USER kevin@localhost;  -- 指定为本机，我们就只能通过这台计算机进行连接，不能远程连接
+CREATE USER kevin@kevin.com;  -- 用户可以从该域名下的任何计算机连接
+CREATE USER kevin@'%.kevin.com'; -- 加上%.表示kevin用户可以从这个域的任何计算机或任何子网域进行连接
+CREATE USER kevin;  -- 为了简便起见，也可以将上条sql写成这样
+
+CREATE USER kevin IDENTIFIED BY 'password';  -- 创建用户并设置密码
+CREATE USER kevin@kevin.com IDENTIFIED BY 'PassWord';
+
+-- ===查看用户===
+SELECT * FROM mysql.user ;
+
+-- ===删除用户===
+DROP USER kevin;
+DROP USER kevin@kevin.com;
+
+-- ===修改密码===
+SET PASSWORD FOR kevin = '000000';  -- 更改kevin用户密码
+SET PASSWORD = '123456';  -- 修改当前登录的用户密码，不管是根用户还是其他人
+
+-- ===授予权限===
+-- 如果你想要赋给某个用户某个权限，但不知到该权限的名字，可以搜索“MySQL privileges”
+GRANT SELECT, INSERT, UPDATE, DELETE, EXECUTE
+ON sql_store.*
+TO kevin@kevin.com;
+-- 给kevin这个账户授予sql_store数据库下的所有表的增删改查权限
+
+GRANT ALL
+ON *.*
+TO kevin;
+-- 将我们之前创建的kevin用户授予管理员权限,他可以具有所有数据库下的所有表的所有权限
+
+-- ===查看权限===
+SHOW GRANTS FOR kevin@kevin.com ;
+-- GRANT SELECT, INSERT, UPDATE, DELETE, EXECUTE ON `sql_store`.* TO `kevin`@`kevin.com`
+
+SHOW GRANTS FOR kevin;
+-- "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, SHUTDOWN, PROCESS, FILE, REFERENCES, INDEX, ALTER, SHOW DATABASES, SUPER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, REPLICATION SLAVE, REPLICATION CLIENT, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, CREATE USER, EVENT, TRIGGER, CREATE TABLESPACE, CREATE ROLE, DROP ROLE ON *.* TO `kevin`@`%`"
+-- "GRANT BACKUP_ADMIN,BINLOG_ADMIN,CONNECTION_ADMIN,ENCRYPTION_KEY_ADMIN,GROUP_REPLICATION_ADMIN,PERSIST_RO_VARIABLES_ADMIN,REPLICATION_SLAVE_ADMIN,RESOURCE_GROUP_ADMIN,RESOURCE_GROUP_USER,ROLE_ADMIN,SET_USER_ID,SYSTEM_VARIABLES_ADMIN,XA_RECOVER_ADMIN ON *.* TO `kevin`@`%`"
+
+SHOW GRANTS ;
+-- 查看当前登录用户的权限
+
+-- ===撤销权限===
+GRANT CREATE VIEW
+ON sql_store.*
+TO kevin@kevin.com;
+-- 将创建视图的权限赋予Kevin@kevin.com这个账户，但是发现我们赋错了，我们想要取消该权限,则使用下面的sql来取消相应权限
+REVOKE CREATE VIEW
+ON sql_store.*
+FROM kevin@kevin.com;
+
+-- (^_^)
+-- The end !
